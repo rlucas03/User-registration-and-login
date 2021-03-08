@@ -16,7 +16,7 @@ if (isset($_POST['adminPass'])) {
 
 }
 
- // DCSadmin01
+ // admin DCSadmin01
 
 if ($adminLoggedIn) {
 echo '<p>Hello ' . $_SESSION['name'] . '</p>';
