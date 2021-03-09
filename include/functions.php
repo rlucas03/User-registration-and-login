@@ -1,10 +1,45 @@
 <?php
+$output ='';
 
+	function secureLinks() {
+		$output .= '<ul>
+
+            <li><a href="DTresults.php?<?php echo SID; ?>">DTresults</a></li>
+            <li><a href="P1results.php?<?php echo SID; ?>">P1results</a></li>
+            <li><a href="PfPresults.php?<?php echo SID; ?>">PfPresults</a></li>
+            </ul>';
+
+            echo $output;
+	}
+
+
+	function deleteSessBtn() {
+		$self = htmlentities($_SERVER['PHP_SELF']); 
+
+		$output .= '<form action ="' . $self .'" method ="post"> 
+					<input type ="submit" name ="destroySession" value ="Log out">
+
+	</form>';
+	echo $output;
+	}
+
+    function destroySession () {
+            $_SESSION = array();
+            if (ini_get("session.use_cookies")) {
+                $yesterday = time() - (24 * 60 * 60); $params = session_get_cookie_params(); setcookie(session_name(), '', $yesterday,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"] );
+            } 
+            session_destroy();
+            header('Location: '.$_SERVER['PHP_SELF']);
+            
+        
+    }
 
 
 function adminForm () {
 	$self = htmlentities($_SERVER['PHP_SELF']); 
-$output =	'<form action="' . $self . '"method="post">
+$output .=	'<form action="' . $self . '"method="post">
             <fieldset>
                 <legend>Admin login</legend>
                 
@@ -26,9 +61,9 @@ $output =	'<form action="' . $self . '"method="post">
 
 function userForm () {
 	$self = htmlentities($_SERVER['PHP_SELF']); 
-$output =	'<form action="' . $self . '"method="post">
+$output .=	'<form action="' . $self . '"method="post">
             <fieldset>
-                <legend>Your details</legend>
+                <legend>User login</legend>
                 
                 <div>
                     <label for="username">Username</label>
@@ -52,13 +87,28 @@ $output =	'<form action="' . $self . '"method="post">
 function registerForm() {
 	$self = htmlentities($_SERVER['PHP_SELF']); 
 
-	$output = '<form action="' . $self . '"method="post">
+	$output .= '<form action="' . $self . '"method="post">
             <fieldset>
                 <legend>New User Details</legend>
+
+                 <div>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" />
+                </div>               <div>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" />
+                </div> 
                 
                 <div>
                     <label for="title">Title</label>
-                    <input type="text" name="title" id="title" />
+                    <select name="title" id="title">
+								    <optgroup label="title">
+								      <option value="mr">Mr</option>
+								      <option value="miss">Miss</option>
+								      <option value="mrs">Mrs</option>
+								      <option value="doc">Doctor</option>
+								    </optgroup>
+								    </select>
                 </div>                
                <div>
                     <label for="fN">First name</label>
@@ -69,17 +119,12 @@ function registerForm() {
                 </div>               <div>
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" />
-                </div>               <div>
-                    <label for="username">Username</label>
-                    <input type="text" name="newUser" id="username" />
-                </div>               <div>
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" />
-                </div> 
+                </div>               
 
 
 
-                 <input type="submit" name="Register" value="Register" />
+
+                 <input type="submit" name="register" value="Register" />
 
             </fieldset>
 

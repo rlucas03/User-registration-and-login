@@ -10,6 +10,7 @@
 nav {
 	margin: auto;
 	border: 2px dotted black;
+	display: block;
 }
 
 nav ul li a {
@@ -21,4 +22,5 @@ nav ul li a {
 #wrapper {
 	max-width: 80%;
 	margin: auto;
+	border: 1px dotted blue;
 }

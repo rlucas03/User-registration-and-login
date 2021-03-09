@@ -1,35 +1,22 @@
 <?php
-session_start(); // always this at start of file
+session_start(); // always this at start of file 
+include 'include/functions.php';
+
 
 if (isset($_SESSION['name'])) {
 echo '<p>Hello ' . $_SESSION['name'] . '</p>'; 
+
 }
 
+if ($_SESSION['name'] === 'Admin') {
+    deleteSessBtn();
+    }
 
- $self = htmlentities($_SERVER['PHP_SELF']); 
-
-            $output = '<form action="' . $self . '"method="post">
-            <fieldset>
-                <legend>Your details</legend>
-                
-                <div>
-                    <label for="username">Username</label>
-                    <input type="text" name="username" id="=username" />
-                </div>
-
-                <div>
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" />
-                </div>
-
-                 <input type="submit" name="login" value="Login" />
-
-            </fieldset>
-
-        </form>';
-        echo $output;
-
-
+if (isset($_POST['destroySession'])) {
+    // call function to obliterate session
+    destroySession();
+    }
+ 
 
 
 ?>
@@ -37,15 +24,23 @@ echo '<p>Hello ' . $_SESSION['name'] . '</p>';
 <html>
   <?php include 'include/head.php' ?>
     <body>
+        <div id="wrapper">
 
         <hr>
 
         <h1>Welcome to the Intranet Page</h1>
+        <?php
+        if ($_SESSION['name'] === 'Admin') {
+        echo $_SESSION['name']. " is logged in";
+        secureLinks();
+    }
+    ?>
 
         <ul>
             <li><a href="index.php?<?php echo SID; ?>">Home</a></li>
+            <li><a href="admin.php?<?php echo SID; ?>">Admin</a></li>
             <li><a href="intranet.php?<?php echo SID; ?>">Intranet</a></li>
-            <li><a href="dummypage.php?<?php echo SID; ?>">dummypage</a></li>
+         
             
         </ul>
 
@@ -56,5 +51,6 @@ echo '<p>Hello ' . $_SESSION['name'] . '</p>';
             <p>
                 Nulla id fringilla tellus. Etiam ut ipsum nec tellus blandit dapibus a nec neque. Maecenas justo risus, sollicitudin at nunc vitae, tincidunt eleifend purus. Quisque eros nibh, ullamcorper quis purus sagittis, suscipit vehicula enim. Nullam hendrerit consectetur urna ut dignissim. Donec eu laoreet nibh. Pellentesque elit nibh, accumsan nec turpis ut, finibus consectetur eros. Aliquam eget justo eu sapien viverra egestas. Integer non lacus at risus fringilla facilisis eu consequat mi.
             </p>
+        </div>
     </body>
 </html>

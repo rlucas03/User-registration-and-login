@@ -1,16 +1,25 @@
 <?php
 session_start(); // always this at start of file 
 include 'include/functions.php';
-if (isset($_POST['username'])) {
-    $user = $_POST['username'];
-    $_SESSION['name'] = $user;     
+// if (isset($_POST['username'])) {
+//     $user = $_POST['username'];
+//     $_SESSION['name'] = $user;     
 
-}
+// }
 
 if (isset($_SESSION['name'])) {
 echo '<p>Hello ' . $_SESSION['name'] . '</p>'; 
+
 }
 
+if ($_SESSION['name'] === 'Admin') {
+    deleteSessBtn();
+    }
+
+if (isset($_POST['destroySession'])) {
+    // call function to obliterate session
+    destroySession();
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,14 +27,49 @@ echo '<p>Hello ' . $_SESSION['name'] . '</p>';
 
     <body>
         <div id="wrapper">
-        <nav>
+        <!-- <nav>
         <ul>
-         <li><a href="admin.php?<?php echo SID; ?>">Admin login</a></li></ul></nav>
+         <li><a href="index.php?<?php echo SID; ?>">Home</a></li></ul>
+         <li><a href="admin.php?<?php echo SID; ?>">Admin page</a></li></ul></nav> -->
         <?php $self = htmlentities($_SERVER['PHP_SELF']); 
 
             // echoing user form from function
-           userForm();
+          if ($_SESSION['name'] === 'Admin') {
+               // no form
+           } else { 
+            userForm();
+            }
 
+
+
+            if (isset($_POST['username'])) {
+              $trimmed = $_POST['username'];
+              $userNameCleaned = htmlentities($trimmed);
+              echo "username: $userNameCleaned" . "<br>";
+            }
+            if (isset($_POST['password'])) {
+              $trimmed = $_POST['password'];
+              $pwCleaned = htmlentities($trimmed);
+              echo "password: $pwCleaned";
+            }
+
+// opening db file
+            $handle = fopen('db.txt', 'a+');
+            $i = 0;
+            while (!feof($handle)) {
+              $name = fgets($handle, 1024);
+              $details = explode(':',$name);   
+              if ($details[1] == $pwCleaned) {
+                $_SESSION['name'] = 'Admin';
+              }
+
+
+              echo '<p> Username is ' . $details[0] . ' Password is ' . $details[1];
+              echo "$i";
+              $i++;
+
+
+               }
          ?>
 
 
