@@ -3,14 +3,11 @@ session_start(); // always this at start of file
 include 'include/functions.php';
 
 
-if (isset($_SESSION['name'])) {
-echo '<p>Hello ' . $_SESSION['name'] . '</p>'; 
+greetings();
 
-}
-
-if ($_SESSION['name'] === 'Admin') {
-    deleteSessBtn();
-    }
+// if ($_SESSION['name'] === 'Admin' || $_SESSION['name'] === 'User') {
+//     deleteSessBtn();
+//     }
 
 if (isset($_POST['destroySession'])) {
     // call function to obliterate session
@@ -30,7 +27,7 @@ if (isset($_POST['destroySession'])) {
 
         <h1>Welcome to the Intranet Page</h1>
         <?php
-        if ($_SESSION['name'] === 'Admin') {
+        if ($_SESSION['name'] === 'Admin' || $_SESSION['name'] === 'User') {
         echo $_SESSION['name']. " is logged in";
         secureLinks();
     }

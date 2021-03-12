@@ -7,6 +7,7 @@ $errors = array();
 			$menu = array();
 			$menu ['index.php? echo SID; '] = 'Home';
 			$menu ['admin.php? echo SID; '] = 'Admin';
+			$menu ['intranet.php? echo SID; '] = 'Intranet';
 			# slide 22 on Foreach Loop
 			echo '<ul>';
 			foreach ($menu as $key => $menuitem) {

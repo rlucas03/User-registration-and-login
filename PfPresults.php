@@ -1,8 +1,7 @@
 <?php session_start();
 include 'include/functions.php';
-if (isset($_SESSION['name'])) {
-echo '<p>Hello ' . $_SESSION['name'] . '</p>'; 
-}
+greetings();
+
  ?>
 <!doctype html>
 <html>
@@ -29,8 +28,8 @@ echo '<p>Hello ' . $_SESSION['name'] . '</p>';
 	</head>
 	<body>
 		<?php 
-		if ($_SESSION['name'] == 'Admin') {
-	  	deleteSessBtn();
+		if ($_SESSION['name'] == 'Admin' || $_SESSION['name'] === 'User') {
+	  	// deleteSessBtn();
 	  	include('include/navmenuresults.php');
 	  	echo 
 		'<h1>Problem Solving for Programming – PfP Results</h1>

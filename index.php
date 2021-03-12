@@ -7,14 +7,11 @@ include 'include/functions.php';
 
 // }
 
-if (isset($_SESSION['name'])) {
-echo '<p>Hello ' . $_SESSION['name'] . '</p>'; 
+greetings();
 
-}
-
-if ($_SESSION['name'] === 'Admin') {
-    deleteSessBtn();
-    }
+// if ($_SESSION['name'] === 'Admin' || $_SESSION['name'] === 'User') {
+//     deleteSessBtn();
+//     }
 
 if (isset($_POST['destroySession'])) {
     // call function to obliterate session
@@ -29,12 +26,12 @@ if (isset($_POST['destroySession'])) {
         <div id="wrapper">
         <!-- <nav>
         <ul>
-         <li><a href="index.php?<?php echo SID; ?>">Home</a></li></ul>
-         <li><a href="admin.php?<?php echo SID; ?>">Admin page</a></li></ul></nav> -->
+         <li><a href="index.php?<?php ; ?>">Home</a></li></ul>
+         <li><a href="admin.php?<?php ; ?>">Admin page</a></li></ul></nav> -->
         <?php $self = htmlentities($_SERVER['PHP_SELF']); 
 
             // echoing user form from function
-          if ($_SESSION['name'] === 'Admin') {
+          if ($_SESSION['name'] === 'Admin' || $_SESSION['name'] === 'User') {
                // no form
            } else { 
             userForm();
@@ -43,33 +40,86 @@ if (isset($_POST['destroySession'])) {
 
 
             if (isset($_POST['username'])) {
-              $trimmed = $_POST['username'];
+              $trimmed = trim($_POST['username']);
+                 if(userName($trimmed)); {
+
+              echo "You entered username: $userNameCleaned" . "<br>";
+            
               $userNameCleaned = htmlentities($trimmed);
-              echo "username: $userNameCleaned" . "<br>";
+            }
+           
             }
             if (isset($_POST['password'])) {
-              $trimmed = $_POST['password'];
+              $trimmed = trim($_POST['password']);
               $pwCleaned = htmlentities($trimmed);
-              echo "password: $pwCleaned";
+              // $pwCleaned = md5($pwCleaned);
+              echo "You entered password: $pwCleaned";
             }
 
 // opening db file
-            $handle = fopen('db.txt', 'a+');
-            $i = 0;
-            while (!feof($handle)) {
-              $name = fgets($handle, 1024);
-              $details = explode(':',$name);   
-              if ($details[1] == $pwCleaned) {
-                $_SESSION['name'] = 'Admin';
-              }
+    // $handle = fopen('db.txt', 'a+');
+      // $i = 0;
+      // while (!feof($handle)) {
+      // $name = fgets($handle, 1024);
+      // $details = explode(':',$name);
+
+      //  for ($i=0; $i < count($details); $i++) { 
 
 
-              echo '<p> Username is ' . $details[0] . ' Password is ' . $details[1];
-              echo "$i";
-              $i++;
+      //     if ($details[$i] == $userNameCleaned && $details[$i+1] == $pwCleaned) {
+      //       echo  'Password and Username CORRECT!!!';
+      //       $_SESSION['name'] = 'Admin';
+            
 
 
-               }
+      //     } else {
+      //       echo '<br>' .'Incorrect info';
+      //       $_SESSION['name'] = 'Anonymous';
+
+
+      //     }
+      //   }
+  if (isset($_POST['login'])) {
+  
+    $handle = fopen('db.txt', 'a+');
+
+    while(!feof($handle)){
+    $name = fgets($handle);
+    list($user, $password) = explode(':', $name);
+    if(trim($user) == $userNameCleaned && trim($password) == $pwCleaned) {
+       
+
+        $_SESSION['name'] = 'User';
+        $_SESSION['username'] = $userNameCleaned;
+        echo " Logged in as $userNameCleaned.";
+         echo ' Session name is ' . $_SESSION['name'];
+        deleteSessBtn();
+        header('location:intranet.php');
+        break;
+
+        
+        
+    } else {
+      
+      // echo "checked entry " . $i;
+      // $_SESSION['name'] = '';
+    
+    }
+      if (isset($_POST['destroySession'])) {
+          destroySession();
+        }
+
+      
+          
+
+
+              // echo '<p> Username is ' . $details[0] . ' Password is ' . $details[1];
+              // echo "$i";
+              // $i++;
+             }
+             fclose($handle);
+   }
+
          ?>
 
 

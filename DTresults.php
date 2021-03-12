@@ -1,14 +1,13 @@
 <?php session_start(); 
 include 'include/functions.php';
-if (isset($_SESSION['name'])) {
-echo '<p>Hello ' . $_SESSION['name'] . '</p>'; 
-}
+greetings();
+
 
 ?>
 <!doctype html>
 <html>
 	<head>
-		<link rel="stylesheet" href="css/main.css">
+		<!-- <link rel="stylesheet" href="css/main.css"> -->
 
 		<meta charset="utf-8">
 		<title>Introduction to Database Technology - DT Results</title>
@@ -38,8 +37,8 @@ echo '<p>Hello ' . $_SESSION['name'] . '</p>';
 
 	     ?>
 
-	  <?php if ($_SESSION['name'] == 'Admin') {
-	  	deleteSessBtn();
+	  <?php if ($_SESSION['name'] == 'Admin' || $_SESSION['name'] === 'User') {
+	  	// deleteSessBtn();
 	  	include('include/navmenuresults.php');
 	  	echo 
 	    

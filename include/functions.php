@@ -1,6 +1,29 @@
 <?php
 $output ='';
 
+  function userName($name) {
+    if(strlen($name) > 150) {
+        return false;
+    }
+    if ($name == '') {
+        return false;
+    }
+    if (strpos($name, ' ') === false) {
+        return false;
+    }
+    return true;
+	}  
+
+function greetings() {
+	if (isset($_SESSION['name']) || isset($_SESSION['username'])) {
+
+	echo '<p>Hello ' . htmlentities($_SESSION['name']) . ': ' . 
+		htmlentities($_SESSION['username']) . '</p>'; 
+	     deleteSessBtn(); 
+	      // logout button!
+	}	
+}
+
 	function secureLinks() {
 		$output .= '<ul>
 
@@ -31,7 +54,9 @@ $output ='';
                 $params["secure"], $params["httponly"] );
             } 
             session_destroy();
+            echo "Logged out";
             header('Location: '.$_SERVER['PHP_SELF']);
+
             
         
     }

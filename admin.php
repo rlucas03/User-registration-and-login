@@ -5,12 +5,10 @@ include 'include/functions.php';
 
 $adminLoggedIn = false;
 
-if (isset($_SESSION['name'])) {
-echo '<p>Hello ' . $_SESSION['name'] . '</p>';
+greetings();
 
-     deleteSessBtn(); 
-      // logout button!
-  }
+
+  
 
  // some text DCSadmin01
 
@@ -18,7 +16,7 @@ echo '<p>Hello ' . $_SESSION['name'] . '</p>';
 if (isset($_POST['adminPass'])) {
     $trimmed = trim($_POST['adminPass']);
     $adminPass = htmlentities($trimmed);
-    $storedPass = 'DCSadmin01'; // read txt file for pw
+    $storedPass = 'DCSadmin01'; // read txt file for pw later
     if ($adminPass === $storedPass) {
         // echo register form and welcome admin
         $adminLoggedIn = true;
@@ -88,38 +86,90 @@ if ($_SESSION['name'] === 'Admin') {
         registerForm();
         echo $_SESSION['name']. " is logged in";
         secureLinks();
+    } else if ($_SESSION['name'] === 'Admin' || $_SESSION['name'] === 'User') {
+        // echo "do nothing"; 
     } else {
-        adminForm();
+      adminForm();
+
     }
+        
+    
         if (isset($_POST['destroySession'])) {
         // call function to obliterate session
         destroySession();
         }
-
+      $data =[];
 // new user code, to write into db.txt file
       if (isset($_POST['register'])) {
-        $trim = $_POST['title'];
-        $data = array(
-          trim($_POST['username']),
-          trim($_POST['password']),
+        if (isset($_POST['username'])) {
           
-        );
+        
+        $trim = trim($_POST['username']);
+        $username = htmlentities($trim);
+      }
 
-        $userData = $data['0'] . ':' . $data['1'] . PHP_EOL;
+        if (isset($_POST['password'])) {
+          # code...
+        
+        $trimpw = trim($_POST['password']);
+        $password = htmlentities($trimpw);
+        // $password = md5($password);
+      }
+
+        
+
+        array_push($data, $username, $password);
+
+        $userData = $data[0] . ':' . $data[1] . PHP_EOL;
 
       
      $handle = fopen('db.txt', 'a+');
-     // $title = $_POST['title'] . ':'; 
-     // $firstName = $_POST['fN'] . ':'; 
-     // $lastName = $_POST['lN'] . PHP_EOL;
-     // $dataArray = [$title, $firstName, $lastName];
+     // check if username already exists.. below
+     $nameExists = false;
+$i = 0;
+    while(!feof($handle)){
+    $name = fgets($handle);
+    list($user, $password) = explode(':', $name);
+    if(trim($user) == $username) {
+    $nameExists = true;
+        echo "<h2>Username exists, choose another + $i.</h2> ";
+        break;
+
+
+     // new check uname code above
+    } else if($nameExists === false) {
+      echo "You can write to db ";
+      
+      echo " $i";
+      $i++;
+      // break;
+
+    }
+  }
+  // new if here to write result
+  if ($nameExists === false) {
      $result = fwrite($handle, $userData);
      if ($result === false) {
       echo '<p>Oops! data not written</p>';
     } else {
     echo '<p>Wrote '.$result.' bytes</p>';
     }
-  }
+  }  
+
+}
+
+  echo "<br> username exists = $nameExists";
+
+// temp disable writing user to db.txt
+     // $result = fwrite($handle, $userData);
+  //    if ($result === false) {
+  //     echo '<p>Oops! data not written</p>';
+  //   } else {
+  //   echo '<p>Wrote '.$result.' bytes</p>';
+  //   }
+  // }
+  
+
 
         ?>
 
