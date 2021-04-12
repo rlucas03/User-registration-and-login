@@ -34,26 +34,36 @@ if (isset($_POST['destroySession'])) {
           if ($_SESSION['name'] === 'Admin' || $_SESSION['name'] === 'User') {
                // no form
            } else { 
+            // echo user form
             userForm();
             }
 
 
 
             if (isset($_POST['username'])) {
+               // if (strlength($_POST['username'] > 0)) {
+                # code...
               $trimmed = trim($_POST['username']);
-                 if(userName($trimmed)); {
-
-              echo "You entered username: $userNameCleaned" . "<br>";
-            
+                
               $userNameCleaned = htmlentities($trimmed);
-            }
+              echo "You entered username: $userNameCleaned" . "<br>";
+            // } else {
+            //     echo "empty pw field";
+            //   }
+            
            
             }
             if (isset($_POST['password'])) {
+              // if (strlength($_POST['password'] > 0)) {
+                # code...
+              
               $trimmed = trim($_POST['password']);
               $pwCleaned = htmlentities($trimmed);
               // $pwCleaned = md5($pwCleaned);
               echo "You entered password: $pwCleaned";
+              // } else {
+              //   echo "empty pw field";
+              // }
             }
 
 // opening db file
@@ -134,7 +144,6 @@ if (isset($_POST['destroySession'])) {
             <li><a href="index.php?<?php echo SID; ?>">Home</a></li>
             <li><a href="admin.php?<?php echo SID; ?>">Admin</a></li>
             <li><a href="intranet.php?<?php echo SID; ?>">Intranet</a></li>
-            <li><a href="dummypage.php?<?php echo SID; ?>">dummypage</a></li>
         </ul>
 
             <p>

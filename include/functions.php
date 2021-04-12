@@ -69,9 +69,14 @@ $output .=	'<form action="' . $self . '"method="post">
                 <legend>Admin login</legend>
                 
 
-                <div>
+                <div class ="row">
+                  <div class="col-25"> 
                     <label for="password">Admin Password</label>
+                  </div>
+
+                  <div class="col-75"> 
                     <input type="password" name="adminPass" id="password" />
+                  </div>
                 </div>
 
                  <input type="submit" name="login" value="Admin Login" />
@@ -90,17 +95,30 @@ $output .=	'<form action="' . $self . '"method="post">
             <fieldset>
                 <legend>User login</legend>
                 
-                <div>
+                
+                <div class="row">
+                  <div class="col-25">
                     <label for="username">Username</label>
-                    <input type="text" name="username" id="=username" />
+                  </div>
+
+                  <div class="col-75"> 
+                    <input type="text" name="username" id="username" />
+                  </div>
                 </div>
 
-                <div>
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" />
+                <div class="row">
+                <div class="col-25">
+                  <label for="password">Password</label>
                 </div>
 
+                <div class="col-75"> 
+                  <input type="password" name="password" id="password" />
+                </div>
+                </div>
+
+                <div class="row">
                  <input type="submit" name="login" value="Login user" />
+                 </div>
 
             </fieldset>
 

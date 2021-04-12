@@ -126,7 +126,7 @@ if ($_SESSION['name'] === 'Admin') {
      $handle = fopen('db.txt', 'a+');
      // check if username already exists.. below
      $nameExists = false;
-$i = 0;
+    $i = 0;
     while(!feof($handle)){
     $name = fgets($handle);
     list($user, $password) = explode(':', $name);
